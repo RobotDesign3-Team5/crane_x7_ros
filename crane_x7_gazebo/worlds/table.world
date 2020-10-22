@@ -23,6 +23,30 @@
       <pose>0.20 0 1.0 0 0 0</pose>
     </model>
 
+    <model name="inkpad_model">
+      <include>
+        <uri>model://inkpad_model</uri>
+      </include>
+
+      <pose>0.5 0.2 1.0 0 0 0</pose>
+    </model>
+
+    <model name="seal_model">
+      <include>
+        <uri>model://seal_model</uri>
+      </include>
+
+      <pose>0.5 0 1.0 0 0 0</pose>
+    </model>
+
+    <model name="sealmat_model">
+      <include>
+        <uri>model://sealmat_model</uri>
+      </include>
+
+      <pose>0.6 0.2 1.0 0 0 0</pose>
+    </model>
+
     <model name="ground_plane">
       <include>
         <uri>model://ground_plane</uri>
