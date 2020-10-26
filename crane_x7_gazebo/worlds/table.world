@@ -10,19 +10,42 @@
       <include>
         <uri>model://table</uri>
       </include>
-
       <!-- X7を机の端に配置するため、机を移動、回転する -->
       <pose>0.29 0 0 0 0 1.5708</pose>
     </model>
 
-    <model name="wood_cube_5cm">
-      <include>
-        <uri>model://wood_cube_5cm</uri>
-      </include>
-
-      <pose>0.20 0 1.0 0 0 0</pose>
+    <!-- はんこ収納モデル -->
+    <model name="storage_model">
+       <include>
+         <uri>model://storage_model</uri>
+       </include>
+       <pose>0.30 -0.15 1.0 0 0 0</pose>
     </model>
 
+    <!--補助具付 はんこモデル -->
+    <model name="asstseal_model">
+       <include>
+         <uri>model://asstseal_model</uri>
+       </include>
+       <pose>0.30 -0.15 1.002 0 0 -1.5708</pose>
+    </model>
+
+    <!-- はんこマットモデル -->
+    <model name="sealmat_model">
+       <include>
+         <uri>model://sealmat_model</uri>
+       </include>
+       <pose>0.20 0 1.0 0 0 1.5708</pose>
+    </model>
+
+    <!-- 朱肉モデル -->
+    <model name="inkpad_model">
+       <include>
+         <uri>model://inkpad_model</uri>
+       </include>
+       <pose>0.20 -0.15 1.0 0 0 0</pose>
+    </model>
+    
     <model name="ground_plane">
       <include>
         <uri>model://ground_plane</uri>
