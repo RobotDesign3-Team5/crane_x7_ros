@@ -121,6 +121,7 @@ def main():
     print("はんこを上げる")
     arm_move(put_x, put_y, put_after_z, -3.1415, 0.0, -1.5708)
 
+    print("test")
 
 if __name__ == '__main__':
 
