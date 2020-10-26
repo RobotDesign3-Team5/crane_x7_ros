@@ -63,13 +63,15 @@ def main():
     move_arm(position_x, position_y, position_z)
 
     #下げる
-    while position_z >= 0.13:
+    while position_z >= 0.12:
         move_arm(position_x, position_y, position_z)
         position_z -= 0.01
     print("1")
+    rospy.sleep(1.0)
 
     #つかむ
-    move_gripper(0.3)
+    move_gripper(0.4)
+    move_gripper(0.2)
     print("2")
 
     #持ち上げる
