@@ -8,27 +8,6 @@ import rosnode
 import math
 from tf.transformations import quaternion_from_euler
 
-def arm_move(x,y,z,a,b,c):
-    arm = moveit_commander.MoveGroupCommander("arm")
-    target_pose = geometry_msgs.msg.Pose()
-    target_pose.position.x = x
-    target_pose.position.y = y
-    target_pose.position.z = z
-    q = quaternion_from_euler(a,b,c)
-    target_pose.orientation.x = q[0]
-    target_pose.orientation.y = q[1]
-    target_pose.orientation.z = q[2]
-    target_pose.orientation.w = q[3]
-    arm.set_pose_target(target_pose)  # 目標ポーズ設定
-    arm.go()  # 実行
-    rospy.sleep(1.0)
-
-def hand_move(deg):
-    gripper = moveit_commander.MoveGroupCommander("gripper")
-    gripper.set_joint_value_target([deg, deg])
-    gripper.go()
-
-
 def main():
     # --------------------
     # はんこ
@@ -59,6 +38,24 @@ def main():
     arm = moveit_commander.MoveGroupCommander("arm")
     arm.set_max_velocity_scaling_factor(0.1)
     gripper = moveit_commander.MoveGroupCommander("gripper")
+
+    def arm_move(x,y,z,roll,pitch,yaw):
+        target_pose = geometry_msgs.msg.Pose()
+        target_pose.position.x = x
+        target_pose.position.y = y
+        target_pose.position.z = z
+        q = quaternion_from_euler(roll,pitch,yaw)
+        target_pose.orientation.x = q[0]
+        target_pose.orientation.y = q[1]
+        target_pose.orientation.z = q[2]
+        target_pose.orientation.w = q[3]
+        arm.set_pose_target(target_pose)  # 目標ポーズ設定
+        arm.go()  # 実行
+        rospy.sleep(1.0)
+
+    def hand_move(deg):
+        gripper.set_joint_value_target([deg, deg])
+        gripper.go()
 
     while len([s for s in rosnode.get_node_names() if 'rviz' in s]) == 0:
         rospy.sleep(1.0)
@@ -108,7 +105,7 @@ def main():
 
     print("はんこを持ち上げる")
     arm_move(inkpad_x, inkpad_y, inkpad_after_z, -3.1415, 0.0, -1.5708)
-    
+
 
     print("朱肉に押す")
     arm_move(inkpad_x, inkpad_y, inkpad_z, -3.1415, 0.0, -1.5708)
