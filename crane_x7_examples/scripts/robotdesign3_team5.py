@@ -108,6 +108,14 @@ def main():
 
     print("はんこを持ち上げる")
     arm_move(inkpad_x, inkpad_y, inkpad_after_z, -3.1415, 0.0, -1.5708)
+    
+
+    print("朱肉に押す")
+    arm_move(inkpad_x, inkpad_y, inkpad_z, -3.1415, 0.0, -1.5708)
+
+
+    print("はんこを持ち上げる")
+    arm_move(inkpad_x, inkpad_y, inkpad_after_z, -3.1415, 0.0, -1.5708)
 
 
     print("はんこを押す位置まで移動")
