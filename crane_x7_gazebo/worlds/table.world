@@ -22,12 +22,12 @@
        <pose>0.30 -0.15 1.0 0 0 0</pose>
     </model>
 
-    <!--補助具付 はんこモデル -->
+    <!--補助具付 はんこモデル-->
     <model name="asstseal_model">
        <include>
          <uri>model://asstseal_model</uri>
        </include>
-       <pose>0.30 -0.15 1.002 0 0 -1.5708</pose>
+       <pose>0.30 -0.15 1.02 0 0 0</pose>
     </model>
 
     <!-- はんこマットモデル -->
