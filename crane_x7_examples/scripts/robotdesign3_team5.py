@@ -62,6 +62,7 @@ def main():
         rospy.sleep(1.0)
     rospy.sleep(1.0)
 
+    
     print("Group names:")
     print(robot.get_group_names())
 
@@ -73,10 +74,11 @@ def main():
     print("Arm initial pose:")
     print(arm_initial_pose)
 
-    # SRDFに定義されている"home"の姿勢にする
-    arm.set_named_target("home")
-    arm.go()
 
+    # SRDFに定義されている"home"の姿勢にする
+    arm.set_named_target("home2")
+    arm.go()
+    
     # ハンドを開く
     hand_move(hand_open)
 		
@@ -100,6 +102,7 @@ def main():
     print("朱肉上まで移動")
     arm_move(inkpad_x, inkpad_y, inkpad_before_z, -3.1415, 0.0, -1.5708)
 
+    arm.set_max_velocity_scaling_factor(1.0) # 動作を早くする
     for i in range(2):
         print("朱肉に押す")
         arm_move(inkpad_x, inkpad_y, inkpad_z, -3.1415, 0.0, -1.5708)
@@ -107,6 +110,11 @@ def main():
         print("はんこを持ち上げる")
         arm_move(inkpad_x, inkpad_y, inkpad_after_z, -3.1415, 0.0, -1.5708)
 
+    print("はんこを上下逆にしてインクがついているか確認する")
+    arm_move(inkpad_x, inkpad_y, inkpad_after_z, -3.1415, -3.1415, -1.5708)
+
+    arm.set_max_velocity_scaling_factor(0.1)
+    
     print("はんこを押す位置まで移動")
     arm_move(put_x, put_y, put_before_z, -3.1415, 0.0, -1.5708)
 
@@ -117,6 +125,10 @@ def main():
 
     print("はんこを上げる")
     arm_move(put_x, put_y, put_after_z, -3.1415, 0.0, -1.5708)
+
+    # SRDFに定義されている"home"の姿勢にする
+    arm.set_named_target("home")
+    arm.go()
 
 
 if __name__ == '__main__':
