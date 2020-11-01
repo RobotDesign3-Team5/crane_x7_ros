@@ -27,11 +27,12 @@ def main():
     # --------------------
     # 捺印
     put_x = 0.20
-    put_y = 0.15
+    put_y = 0.0
     put_before_z = 0.20
-    put_z = 0.10
+    put_z = 0.12
     put_after_z = 0.20
     # --------------------
+    hand_open = math.pi/4
 
     rospy.init_node("crane_x7_pick_and_place_controller")
     robot = moveit_commander.RobotCommander()
@@ -75,8 +76,9 @@ def main():
     # SRDFに定義されている"home"の姿勢にする
     arm.set_named_target("home")
     arm.go()
-    gripper.set_joint_value_target([0.7, 0.7])
-    gripper.go()
+
+    # ハンドを開く
+    hand_move(hand_open)
 		
 
     print("はんこ上まで移動")
@@ -98,22 +100,12 @@ def main():
     print("朱肉上まで移動")
     arm_move(inkpad_x, inkpad_y, inkpad_before_z, -3.1415, 0.0, -1.5708)
 
-   
-    print("朱肉に押す")
-    arm_move(inkpad_x, inkpad_y, inkpad_z, -3.1415, 0.0, -1.5708)
+    for i in range(2):
+        print("朱肉に押す")
+        arm_move(inkpad_x, inkpad_y, inkpad_z, -3.1415, 0.0, -1.5708)
 
-
-    print("はんこを持ち上げる")
-    arm_move(inkpad_x, inkpad_y, inkpad_after_z, -3.1415, 0.0, -1.5708)
-
-
-    print("朱肉に押す")
-    arm_move(inkpad_x, inkpad_y, inkpad_z, -3.1415, 0.0, -1.5708)
-
-
-    print("はんこを持ち上げる")
-    arm_move(inkpad_x, inkpad_y, inkpad_after_z, -3.1415, 0.0, -1.5708)
-
+        print("はんこを持ち上げる")
+        arm_move(inkpad_x, inkpad_y, inkpad_after_z, -3.1415, 0.0, -1.5708)
 
     print("はんこを押す位置まで移動")
     arm_move(put_x, put_y, put_before_z, -3.1415, 0.0, -1.5708)
