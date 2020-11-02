@@ -63,8 +63,8 @@ def main():
         arm.set_joint_value_target(target_joint_values)
         arm.go()
     # --------------------
-    def joints_moves(deg0,deg1,deg2,deg3,deg4,deg5,deg6):
-        deg = [deg0,deg1,deg2,deg3,deg4,deg5,deg6]
+    def joints_moves(deg):
+        # deg = [deg0,deg1,deg2,deg3,deg4,deg5,deg6]
         target_joint_values = arm.get_current_joint_values() # 現在角度をベースに、目標角度を作成する
         for i in range(7):
             target_joint_values[i] = arm.get_current_joint_values()[i] + math.radians(deg[i])
@@ -85,7 +85,7 @@ def main():
     arm.set_named_target("vertical")
     arm.go()
 
-    joints_moves(-45,-45,-45,-45,-45,-45,-45)
+    joints_moves([-45,-45,-45,-45,-45,-45,-45])
     # --------------------
     # アーム初期ポーズを表示
     arm_initial_pose = arm.get_current_pose().pose
