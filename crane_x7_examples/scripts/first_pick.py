@@ -61,9 +61,8 @@ def main():
     move_gripper(0.1)
 
     #ハンコの上に移動する
-    move_arm(0.3, -0.15, 0.2)
-    rospy.sleep(1)
-
+    arm.set_named_target("pick_seal_position")
+    arm.go()
     #ハンドを開く
     move_gripper(0.7)
     rospy.sleep(1)
@@ -93,7 +92,7 @@ def main():
     rospy.sleep(1)
 
     #紙の上に移動
-    arm.set_named_target("before_stamping_posision")
+    arm.set_named_target("before_stamping_position")
     arm.go()
     rospy.sleep(1)
     #紙に押す
