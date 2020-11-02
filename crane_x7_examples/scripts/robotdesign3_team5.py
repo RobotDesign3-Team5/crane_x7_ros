@@ -37,108 +37,101 @@ def main():
     rospy.init_node("crane_x7_pick_and_place_controller")
     robot = moveit_commander.RobotCommander()
     arm = moveit_commander.MoveGroupCommander("arm")
-    arm.set_max_velocity_scaling_factor(0.1)
+    arm.set_max_velocity_scaling_factor(0.5)
     gripper = moveit_commander.MoveGroupCommander("gripper")
-
-    def arm_move(x,y,z,roll,pitch,yaw):
+    # --------------------
+    def arm_move(x,y,z):
         target_pose = geometry_msgs.msg.Pose()
         target_pose.position.x = x
         target_pose.position.y = y
         target_pose.position.z = z
-        q = quaternion_from_euler(roll,pitch,yaw)
+        q = quaternion_from_euler(- math.pi,0.0,- math.pi / 2)
         target_pose.orientation.x = q[0]
         target_pose.orientation.y = q[1]
         target_pose.orientation.z = q[2]
         target_pose.orientation.w = q[3]
-        arm.set_pose_target(target_pose)  # 目標ポーズ設定
-        arm.go()  # 実行
-        rospy.sleep(1.0)
-
-    def hand_move(deg):
-        gripper.set_joint_value_target([deg, deg])
+        arm.set_pose_target(target_pose)
+        arm.go()
+    # --------------------
+    def hand_move(rad):
+        gripper.set_joint_value_target([rad, rad])
         gripper.go()
-
-    
+    # --------------------
     def joint_move(joint_value,deg):
-        i = math.degrees(arm.get_current_joint_values()[joint_value])
-        degree = i + deg
-        target_joint_values = arm.get_current_joint_values()
-        joint_angle = math.radians(degree)
-        target_joint_values[joint_value] = joint_angle
+        target_joint_values = arm.get_current_joint_values() # 現在角度をベースに、目標角度を作成する
+        target_joint_values[joint_value] = arm.get_current_joint_values()[joint_value] + math.radians(deg)
         arm.set_joint_value_target(target_joint_values)
         arm.go()
-        rospy.sleep(1.0)
-
+    # --------------------
+    def joints_moves(deg0,deg1,deg2,deg3,deg4,deg5,deg6):
+        deg = [deg0,deg1,deg2,deg3,deg4,deg5,deg6]
+        target_joint_values = arm.get_current_joint_values() # 現在角度をベースに、目標角度を作成する
+        for i in range(7):
+            target_joint_values[i] = arm.get_current_joint_values()[i] + math.radians(deg[i])
+            arm.set_joint_value_target(target_joint_values)
+        arm.go()
+    # --------------------
     while len([s for s in rosnode.get_node_names() if 'rviz' in s]) == 0:
         rospy.sleep(1.0)
     rospy.sleep(1.0)
-
 
     print("Group names:")
     print(robot.get_group_names())
 
     print("Current state:")
     print(robot.get_current_state())
+    # --------------------
+    # 簡易SRDFのテスト
+    arm.set_named_target("vertical")
+    arm.go()
 
+    joints_moves(-45,-45,-45,-45,-45,-45,-45)
+    # --------------------
     # アーム初期ポーズを表示
     arm_initial_pose = arm.get_current_pose().pose
     print("Arm initial pose:")
     print(arm_initial_pose)
 
-
     # SRDFに定義されている"home"の姿勢にする
     arm.set_named_target("home")
     arm.go()
     
-    # ハンドを開く
+    print("ハンドを開く")
     hand_move(hand_open)
-		
 
     print("はんこ上まで移動")
-    arm_move(seal_x, seal_y, seal_before_z, -3.1415, 0.0, -1.5708)
-
+    arm_move(seal_x, seal_y, seal_before_z)
 
     print("はんこを掴む位置まで移動")
-    arm_move(seal_x, seal_y, seal_z, -3.1415, 0.0, -1.5708)
-
+    arm_move(seal_x, seal_y, seal_z)
 
     print("はんこを掴む")
     hand_move(seal_close)
 
-
     print("はんこを持ち上げる")
-    arm_move(seal_x, seal_y, seal_after_z, -3.1415, 0.0, -1.5708)
+    arm_move(seal_x, seal_y, seal_after_z)
 
-   
     print("朱肉上まで移動")
-    arm_move(inkpad_x, inkpad_y, inkpad_before_z, -3.1415, 0.0, -1.5708)
+    arm_move(inkpad_x, inkpad_y, inkpad_before_z)
 
-    arm.set_max_velocity_scaling_factor(1.0) # 動作を早くする
     for i in range(2):
         print("朱肉に押す")
-        arm_move(inkpad_x, inkpad_y, inkpad_z, -3.1415, 0.0, -1.5708)
+        arm_move(inkpad_x, inkpad_y, inkpad_z)
 
         print("はんこを持ち上げる")
-        arm_move(inkpad_x, inkpad_y, inkpad_after_z, -3.1415, 0.0, -1.5708)
+        arm_move(inkpad_x, inkpad_y, inkpad_after_z)
 
-    """
-    print("はんこを上下逆にしてインクがついているか確認する")
-    arm_move(inkpad_x, inkpad_y, inkpad_after_z, -3.1415, -3.1415, -1.5708)
-    """
-
-    print("はんこを上下逆にしてインクがついているか確認する")
+    print("インクが付いたか確認する")
     joint_move(4,50)
 
-    arm.set_max_velocity_scaling_factor(0.1)
-    
-    print("はんこを押す位置まで移動")
-    arm_move(put_x, put_y, put_before_z, -3.1415, 0.0, -1.5708)
+    print("捺印場所に移動")
+    arm_move(put_x, put_y, put_before_z)
 
     print("はんこを押す")
-    arm_move(put_x, put_y, put_z, -3.1415, 0.0, -1.5708)
+    arm_move(put_x, put_y, put_z)
 
     print("はんこを上げる")
-    arm_move(put_x, put_y, put_after_z, -3.1415, 0.0, -1.5708)
+    arm_move(put_x, put_y, put_after_z)
 
 if __name__ == '__main__':
 
