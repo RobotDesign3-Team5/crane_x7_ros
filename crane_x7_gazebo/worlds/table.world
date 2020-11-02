@@ -37,7 +37,7 @@
        </include>
        <pose>0.20 0 1.0 0 0 1.5708</pose>
     </model>
-
+    
     <!-- 朱肉モデル -->
     <model name="inkpad_model">
        <include>
@@ -46,6 +46,22 @@
        <pose>0.20 -0.15 1.0 0 0 0</pose>
     </model>
     
+    <!-- ティッシュペーパーモデル -->
+    <model name="TissuePaper_model">
+       <include>
+         <uri>model://TissuePaper_model</uri>
+       </include>
+       <pose>0.20 0.30 1.0 0 0 0</pose>
+    </model>
+
+    <!-- スティックのりモデル -->
+    <model name="GlueStick_model">
+       <include>
+         <uri>model://GlueStick_model</uri>
+       </include>
+       <pose>0.30 -0.25 1.0 0 0 0</pose>
+    </model>
+
     <model name="ground_plane">
       <include>
         <uri>model://ground_plane</uri>
