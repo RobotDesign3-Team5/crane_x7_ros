@@ -30,7 +30,7 @@
         <uri>model://inkpad_model</uri>
       </include>
 
-      <pose>0.3 -0.3 1.0 0 0 0</pose>
+      <pose>0.2 -0.15 1.0 0 0 0</pose>
     </model>
 
     <!--
@@ -48,7 +48,7 @@
         <uri>model://sealmat_model</uri>
       </include>
 
-      <pose>0.3 -0.1 1.0 0 0 0</pose>
+      <pose>0.2 0 1.0 0 0 0</pose>
     </model>
 
     <model name="storage_model">
@@ -56,7 +56,7 @@
         <uri>model://storage_model</uri>
       </include>
 
-      <pose>0.5 -0.3 1.0 0 0 0</pose>
+      <pose>0.3 -0.15 1.0 0 0 0</pose>
     </model>
 
     <model name="asstseal_model">
@@ -64,7 +64,7 @@
         <uri>model://asstseal_model</uri>
       </include>
 
-      <pose>0.5 -0.3 1.2 0 0 0</pose>
+      <pose>0.3 -0.15 1.2 0 0 0</pose>
     </model>
 
 

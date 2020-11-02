@@ -44,12 +44,14 @@ def main():
     arm.set_named_target("vertical")
     arm.go()
 
-    #自分で入れたsrdf,test
-    print("test1")
-    arm.set_named_target("test1")
+    print("before_stamping_posision")
+    arm.set_named_target("before_stamping_posision")
     arm.go()
-    rospy.sleep(3)
+    #自分で入れたsrdf,test
 
+    print("home")
+    arm.set_named_target("home")
+    arm.go()
 
     # 移動後の手先ポーズを表示
     arm_goal_pose = arm.get_current_pose().pose
@@ -57,46 +59,68 @@ def main():
     print(arm_goal_pose)
     print("done")
 
-"""
     # SRDFに定義されている"vertical"の姿勢にする
     print("vertical")
     arm.set_named_target("vertical")
     arm.go()
 
+"""
     #自分で入れたsrdf,test
     print("test1")
     arm.set_named_target("test1")
     arm.go()
+    
+    for i in range(7):
+        print ", current_joint_values :"
+        print arm.get_current_joint_values()[i]
 
     print("test2")
     arm.set_named_target("test2")
     arm.go()
+    for i in range(7):
+        print ", current_joint_values :"
+        print arm.get_current_joint_values()[i]
 
     print("test3")
     arm.set_named_target("test3")
     arm.go()
+    for i in range(7):
+        print ", current_joint_values :"
+        print arm.get_current_joint_values()[i]
 
     print("test4")
     arm.set_named_target("test4")
     arm.go()
+    for i in range(7):
+        print ", current_joint_values :"
+        print arm.get_current_joint_values()[i]
 
     print("test5")
     arm.set_named_target("test5")
     arm.go()
+    for i in range(7):
+        print ", current_joint_values :"
+        print arm.get_current_joint_values()[i]
 
     print("test6")
     arm.set_named_target("test6")
     arm.go()
+    for i in range(7):
+        print ", current_joint_values :"
+        print arm.get_current_joint_values()[i]
 
     print("test7")
     arm.set_named_target("test7")
     arm.go()
+    for i in range(7):
+        print ", current_joint_values :"
+        print arm.get_current_joint_values()[i]
 
     # ハンドを少し閉じる
     gripper.set_joint_value_target([0.7, 0.7])
     gripper.go()
-    """
 
+        """
     # 手動で姿勢を指定するには以下のように指定
 """
     target_pose = geometry_msgs.msg.Pose()
