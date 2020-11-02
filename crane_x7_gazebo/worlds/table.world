@@ -62,7 +62,7 @@
 	    <include>
 		    <uri>model://option_model</uri>
 	    </include>
-	    <pose>3 3 1.0 0 0 0</pose>
+	    <pose>0.3 -0.25 1.0 0 0 0</pose>
     </model>
 
   </world>
