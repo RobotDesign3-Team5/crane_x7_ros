@@ -76,7 +76,7 @@ def main():
 
 
     # SRDFに定義されている"home"の姿勢にする
-    arm.set_named_target("home2")
+    arm.set_named_target("home")
     arm.go()
     
     # ハンドを開く
@@ -110,26 +110,32 @@ def main():
         print("はんこを持ち上げる")
         arm_move(inkpad_x, inkpad_y, inkpad_after_z, -3.1415, 0.0, -1.5708)
 
+    """
     print("はんこを上下逆にしてインクがついているか確認する")
     arm_move(inkpad_x, inkpad_y, inkpad_after_z, -3.1415, -3.1415, -1.5708)
+    """
+
+    print("はんこを上下逆にしてインクがついているか確認する")
+    i = math.degrees(arm.get_current_joint_values()[4])
+    degree = i + 50
+    target_joint_values = arm.get_current_joint_values()
+    joint_angle = math.radians(degree)
+    target_joint_values[4] = joint_angle
+    arm.set_joint_value_target(target_joint_values)
+    arm.go()
+    rospy.sleep(1)
+
 
     arm.set_max_velocity_scaling_factor(0.1)
     
     print("はんこを押す位置まで移動")
     arm_move(put_x, put_y, put_before_z, -3.1415, 0.0, -1.5708)
 
-
     print("はんこを押す")
     arm_move(put_x, put_y, put_z, -3.1415, 0.0, -1.5708)
 
-
     print("はんこを上げる")
     arm_move(put_x, put_y, put_after_z, -3.1415, 0.0, -1.5708)
-
-    # SRDFに定義されている"home"の姿勢にする
-    arm.set_named_target("home")
-    arm.go()
-
 
 if __name__ == '__main__':
 
