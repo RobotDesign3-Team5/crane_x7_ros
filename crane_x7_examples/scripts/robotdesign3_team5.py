@@ -80,7 +80,24 @@ def main():
     arm.go()
     gripper.set_joint_value_target([0.7, 0.7])
     gripper.go()
-		
+
+
+    #紙の位置に移動
+    arm_move(put_x, put_y, put_before_z, -3.1415, 0.0, -1.5708)
+
+
+    #右に移動
+    arm_move(0.20, 0.10, 0.2, -3.1415, 0.0, -1.5708)
+
+
+    #左に移動
+    arm_move(0.20, 0.30, 0.2, -3.1415, 0.0, -1.5708)
+
+
+    #元の位置に
+    arm_move(put_x, put_y, put_before_z, -3.1415, 0.0, -1.5708)
+
+
 
     print("はんこ上まで移動")
     arm_move(seal_x, seal_y, seal_before_z, -3.1415, 0.0, -1.5708)
