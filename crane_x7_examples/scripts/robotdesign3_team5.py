@@ -58,11 +58,22 @@ def main():
         gripper.set_joint_value_target([deg, deg])
         gripper.go()
 
+    
+    def joint_move(joint_value,deg):
+        i = math.degrees(arm.get_current_joint_values()[joint_value])
+        degree = i + deg
+        target_joint_values = arm.get_current_joint_values()
+        joint_angle = math.radians(degree)
+        target_joint_values[joint_value] = joint_angle
+        arm.set_joint_value_target(target_joint_values)
+        arm.go()
+        rospy.sleep(1.0)
+
     while len([s for s in rosnode.get_node_names() if 'rviz' in s]) == 0:
         rospy.sleep(1.0)
     rospy.sleep(1.0)
 
-    
+
     print("Group names:")
     print(robot.get_group_names())
 
@@ -116,15 +127,7 @@ def main():
     """
 
     print("はんこを上下逆にしてインクがついているか確認する")
-    i = math.degrees(arm.get_current_joint_values()[4])
-    degree = i + 50
-    target_joint_values = arm.get_current_joint_values()
-    joint_angle = math.radians(degree)
-    target_joint_values[4] = joint_angle
-    arm.set_joint_value_target(target_joint_values)
-    arm.go()
-    rospy.sleep(1)
-
+    joint_move(4,50)
 
     arm.set_max_velocity_scaling_factor(0.1)
     
