@@ -13,7 +13,7 @@ def main():
     rospy.init_node("crane_x7_pick_and_place_controller")
     robot = moveit_commander.RobotCommander()
     arm = moveit_commander.MoveGroupCommander("arm")
-    arm.set_max_velocity_scaling_factor(0.1)
+    arm.set_max_velocity_scaling_factor(1.0)
     gripper = moveit_commander.MoveGroupCommander("gripper")
 
     while len([s for s in rosnode.get_node_names() if 'rviz' in s]) == 0:
@@ -71,6 +71,14 @@ def main():
 
 
     #ハンコの上に移動する
+    print("pick_seal_position")
+    arm.set_named_target("pick_seal_position")
+    arm.go()
+    for i in range(7):
+        print ", current_joint_values :",
+        print arm.get_current_joint_values()[i]
+    
+    rospy.sleep(1)
     move_arm(0.3, -0.15, 0.2)
     rospy.sleep(1)
     print("1")
@@ -140,8 +148,8 @@ def main():
     rospy.sleep(1)
     """
 
-    print("before_stamping_posision")
-    arm.set_named_target("before_stamping_posision")
+    print("before_stamping_position")
+    arm.set_named_target("before_stamping_position")
     arm.go()
     rospy.sleep(1)
     print("start")
