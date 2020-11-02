@@ -106,11 +106,15 @@ def main():
     #紙に押す
     move_arm(0.2, 0, 0.13)
     rospy.sleep(1)
+    print ", current_joint_values (degrees):",
+    print math.degrees( arm.get_current_joint_values()[5] )
 
+    i = math.degrees(arm.get_current_joint_values()[5])#現在の角度取得5番のところ
+    degree = i +3#degreeに+3度して代入
     #印鑑グリグリ
     print("123")
     target_joint_values = arm.get_current_joint_values()
-    joint_angle = math.radians(-60)
+    joint_angle = math.radians(degree)
     target_joint_values[5] = joint_angle
     arm.set_joint_value_target(target_joint_values)
     arm.go()
@@ -120,8 +124,9 @@ def main():
     print math.degrees( arm.get_current_joint_values()[5] )
     rospy.sleep(1)
     print("456")
+    degree = i - 3
 
-    joint_angle = math.radians(-65)
+    joint_angle = math.radians(degree)
     target_joint_values[5] = joint_angle
     arm.set_joint_value_target(target_joint_values)
     arm.go()
