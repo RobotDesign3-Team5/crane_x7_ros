@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import rospy
+import math
 import moveit_commander
 import geometry_msgs.msg
 import rosnode
@@ -24,6 +25,10 @@ def main():
 
     print("Current state:")
     print(robot.get_current_state())
+
+    #print arm.get_joint_value_target()
+    #print arm.get_current_joint_values()
+    #target_joint_values = arm.get_current_joint_values()
 
     # アーム初期ポーズを表示
     arm_initial_pose = arm.get_current_pose().pose
@@ -64,45 +69,84 @@ def main():
 
     #ハンコの上に移動する
     move_arm(0.3, -0.15, 0.2)
+    rospy.sleep(1)
 
     #ハンドを開く
     move_gripper(0.7)
+    rospy.sleep(1)
 
     #アームを下げてハンコをつかむ
     move_arm(0.3, -0.15, 0.13)
+    rospy.sleep(1)
 
     #閉じる
     move_gripper(0.2)
+    rospy.sleep(1)
 
     #持ち上げる
     move_arm(0.3, -0.15, 0.2)
+    rospy.sleep(1)
 
     #朱肉の上に移動
     move_arm(0.2, -0.15, 0.2)
+    rospy.sleep(1)
 
     #朱肉につける
     move_arm(0.2, -0.15, 0.13)
+    rospy.sleep(1)
 
     #持ち上げる
     move_arm(0.2, -0.15, 0.2)
+    rospy.sleep(1)
 
     #紙の上に移動
     move_arm(0.2, 0, 0.2)
+    rospy.sleep(1)
 
     #紙に押す
     move_arm(0.2, 0, 0.13)
+    rospy.sleep(1)
+
+    #印鑑グリグリ
+    print("123")
+    target_joint_values = arm.get_current_joint_values()
+    joint_angle = math.radians(-60)
+    target_joint_values[5] = joint_angle
+    arm.set_joint_value_target(target_joint_values)
+    arm.go()
+    print str(5) + "-> joint_value_target (degrees):",
+    print math.degrees( arm.get_joint_value_target()[5] ),
+    print ", current_joint_values (degrees):",
+    print math.degrees( arm.get_current_joint_values()[5] )
+    rospy.sleep(1)
+    print("456")
+
+    joint_angle = math.radians(-65)
+    target_joint_values[5] = joint_angle
+    arm.set_joint_value_target(target_joint_values)
+    arm.go()
+    print str(5) + "-> joint_value_target (degrees):",
+    print math.degrees( arm.get_joint_value_target()[5] ),
+    print ", current_joint_values (degrees):",
+    print math.degrees( arm.get_current_joint_values()[5] )
+    rospy.sleep(1)
+    print("456")
 
     #持ち上げる
     move_arm(0.2, 0, 0.2)
+    rospy.sleep(1)
 
     #ハンコを戻す
     move_arm(0.3, -0.15, 0.2)
+    rospy.sleep(1)
 
     #ハンコを置く
     move_arm(0.3, -0.15, 0.13)
+    rospy.sleep(1)
 
     #置く
     move_gripper(0.7)
+    rospy.sleep(1)
 
     # SRDFに定義されている"home"の姿勢にする
     arm.set_named_target("home")
