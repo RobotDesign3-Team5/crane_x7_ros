@@ -60,7 +60,7 @@
     <!-- 選択肢モデル-->
     <model name="option_model">
 	    <include>
-		    <uri>model://option_model</uri>
+		    <uri>model://GlueStick_model</uri>
 	    </include>
 	    <pose>0.3 -0.25 1.0 0 0 0</pose>
     </model>
