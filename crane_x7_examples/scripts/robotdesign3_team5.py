@@ -7,10 +7,6 @@ import geometry_msgs.msg
 import rosnode
 import math
 from tf.transformations import quaternion_from_euler
-
-import actionlib
-from control_msgs.msg import GripperCommandAction, GripperCommandGoal
-
 def main():
     # --------------------
     # はんこ
@@ -27,6 +23,9 @@ def main():
     inkpad_before_z = 0.30  # 押す前  z座標[m]
     inkpad_z = 0.13         # 押す    z座標[m]
     inkpad_after_z = 0.30   # 押す後  z座標[m]
+
+    inkpad_up_z = 0.01      # ポンポンする高さ[m]
+    check_deg = 50          # 確認時回転角度[deg]
     # --------------------
     # 捺印
     put_x = 0.20            # x座標[m]
@@ -44,11 +43,6 @@ def main():
     arm = moveit_commander.MoveGroupCommander("arm")
     arm.set_max_velocity_scaling_factor(0.5) # 実行速度
     gripper = moveit_commander.MoveGroupCommander("gripper")
-
-    gripper = actionlib.SimpleActionClient("crane_x7/gripper_controller/gripper_cmd", GripperCommandAction)
-    gripper.wait_for_server()
-    gripper_goal = GripperCommandGoal()
-    gripper_goal.command.max_effort = 4.0
     # --------------------
     # 指定座標に手先を動かす関数
     def arm_move(x,y,z):
@@ -66,14 +60,8 @@ def main():
     # --------------------
     # ハンドの角度[rad]を指定し動かす関数
     def hand_move(rad):
-        """
         gripper.set_joint_value_target([rad, rad])
         gripper.go()
-        """
-        gripper_goal.command.position = rad
-        gripper.send_goal(gripper_goal)
-        gripper.wait_for_result(rospy.Duration(10))
-
     # --------------------
     # 指定関節の角度[deg]を指定し動かす関数
     def joint_move(joint_value,deg):
@@ -132,48 +120,23 @@ def main():
 
     print("はんこを持ち上げる")
     arm_move(seal_x, seal_y, seal_after_z)
-
+    # --------------------
+    print ("朱肉につけ確認する動作")
     for i in range(2):
-        """
-        print("朱肉上まで移動")
         arm_move(inkpad_x, inkpad_y, inkpad_before_z)
-        
-        print("朱肉に押す")
+        # --------------------
+        # 朱肉にはんこを数回押し付ける
         arm_move(inkpad_x, inkpad_y, inkpad_z)
-
-        print("はんこを持ち上げる")
+        for j in range(2):
+            arm_move(inkpad_x, inkpad_y, inkpad_z + inkpad_up_z)
+            arm_move(inkpad_x, inkpad_y, inkpad_z)
+        # --------------------
+        # 持ち上げる
         arm_move(inkpad_x, inkpad_y, inkpad_after_z)
 
-        """
-        # Z軸のみ変更テスト
-        target_pose = geometry_msgs.msg.Pose()
-        target_pose.position.x = inkpad_x
-        target_pose.position.y = inkpad_y
-        target_pose.position.z = inkpad_before_z
-        q = quaternion_from_euler(- math.pi,0.0,- math.pi / 2)
-        target_pose.orientation.x = q[0]
-        target_pose.orientation.y = q[1]
-        target_pose.orientation.z = q[2]
-        target_pose.orientation.w = q[3]
-        arm.set_pose_target(target_pose)
-        arm.go()
-
-        target_pose.position.z = inkpad_z
-        arm.set_pose_target(target_pose)
-        if arm.go() is False:
-            print "Failed to leave from an object."
-            continue
-        rospy.sleep(1.0)
-
-        target_pose.position.z = inkpad_after_z
-        arm.set_pose_target(target_pose)
-        if arm.go() is False:
-            print "Failed to leave from an object."
-            continue
-        rospy.sleep(1.0)
-
-        print("インクが付いたか確認する")
-        joint_move(4,50)
+        # 確認する
+        joint_move(4,check_deg)
+    # --------------------
 
     print("捺印場所に移動")
     arm_move(put_x, put_y, put_before_z)
