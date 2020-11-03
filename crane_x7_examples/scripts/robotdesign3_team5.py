@@ -52,7 +52,15 @@ def main():
     put_before_z = 0.20
     put_z = 0.10
     put_after_z = 0.20
-    # --------------------
+    # -------------------
+    # GlueStick
+    glue_x = 
+    glue_y =
+    glue_before_z =
+    glue_z =
+    glue_after_z =
+    #------------------
+    #
 
     rospy.init_node("crane_x7_pick_and_place_controller")
     robot = moveit_commander.RobotCommander()
@@ -80,7 +88,16 @@ def main():
     arm.go()
     gripper.set_joint_value_target([0.7, 0.7])
     gripper.go()
-		
+
+    print("スティックのり上まで移動")
+    arm_move(glue_x, glue_y, glue_before_z, -3.1415, 0.0, -1.5708)
+	
+    print("スティックのりを掴みそうな位置まで移動")
+    arm_move(glue_x, glue_y, glue_z, -3.1415, 0.0, -1.5708)
+
+    print("スティックのり上へ戻る")
+    arm_move(glue_x, glue_y, glue_after_z, -3.1415, 0.0, -1.5708)
+
 
     print("はんこ上まで移動")
     arm_move(seal_x, seal_y, seal_before_z, -3.1415, 0.0, -1.5708)
