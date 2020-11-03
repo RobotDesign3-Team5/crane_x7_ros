@@ -39,7 +39,7 @@ def main():
     rospy.init_node("crane_x7_pick_and_place_controller")
     robot = moveit_commander.RobotCommander()
     arm = moveit_commander.MoveGroupCommander("arm")
-    arm.set_max_velocity_scaling_factor(0.1) # 実行速度
+    arm.set_max_velocity_scaling_factor(0.5) # 実行速度
     gripper = moveit_commander.MoveGroupCommander("gripper")
     # --------------------
     # 指定座標に手先を動かす関数
@@ -120,14 +120,43 @@ def main():
     arm_move(seal_x, seal_y, seal_after_z)
 
     for i in range(2):
+        """
         print("朱肉上まで移動")
         arm_move(inkpad_x, inkpad_y, inkpad_before_z)
-
+        
         print("朱肉に押す")
         arm_move(inkpad_x, inkpad_y, inkpad_z)
 
         print("はんこを持ち上げる")
         arm_move(inkpad_x, inkpad_y, inkpad_after_z)
+
+        """
+        # Z軸のみ変更テスト
+        target_pose = geometry_msgs.msg.Pose()
+        target_pose.position.x = inkpad_x
+        target_pose.position.y = inkpad_y
+        target_pose.position.z = inkpad_before_z
+        q = quaternion_from_euler(- math.pi,0.0,- math.pi / 2)
+        target_pose.orientation.x = q[0]
+        target_pose.orientation.y = q[1]
+        target_pose.orientation.z = q[2]
+        target_pose.orientation.w = q[3]
+        arm.set_pose_target(target_pose)
+        arm.go()
+
+        target_pose.position.z = inkpad_z
+        arm.set_pose_target(target_pose)
+        if arm.go() is False:
+            print "Failed to leave from an object."
+            continue
+        rospy.sleep(1.0)
+
+        target_pose.position.z = inkpad_after_z
+        arm.set_pose_target(target_pose)
+        if arm.go() is False:
+            print "Failed to leave from an object."
+            continue
+        rospy.sleep(1.0)
 
         print("インクが付いたか確認する")
         joint_move(4,50)
