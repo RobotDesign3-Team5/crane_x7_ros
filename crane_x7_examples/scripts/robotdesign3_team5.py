@@ -8,6 +8,9 @@ import rosnode
 import math
 from tf.transformations import quaternion_from_euler
 
+import actionlib
+from control_msgs.msg import GripperCommandAction, GripperCommandGoal
+
 def main():
     # --------------------
     # はんこ
@@ -41,6 +44,11 @@ def main():
     arm = moveit_commander.MoveGroupCommander("arm")
     arm.set_max_velocity_scaling_factor(0.5) # 実行速度
     gripper = moveit_commander.MoveGroupCommander("gripper")
+
+    gripper = actionlib.SimpleActionClient("crane_x7/gripper_controller/gripper_cmd", GripperCommandAction)
+    gripper.wait_for_server()
+    gripper_goal = GripperCommandGoal()
+    gripper_goal.command.max_effort = 4.0
     # --------------------
     # 指定座標に手先を動かす関数
     def arm_move(x,y,z):
@@ -58,8 +66,14 @@ def main():
     # --------------------
     # ハンドの角度[rad]を指定し動かす関数
     def hand_move(rad):
+        """
         gripper.set_joint_value_target([rad, rad])
         gripper.go()
+        """
+        gripper_goal.command.position = rad
+        gripper.send_goal(gripper_goal)
+        gripper.wait_for_result(rospy.Duration(10))
+
     # --------------------
     # 指定関節の角度[deg]を指定し動かす関数
     def joint_move(joint_value,deg):
