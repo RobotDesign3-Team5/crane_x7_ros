@@ -65,5 +65,13 @@
 	    <pose>0.3 -0.25 1.0 0 0 0</pose>
     </model>
 
+    <!--消しゴムモデル(選択肢)-->
+    <model name="eraser_model">
+	    <include>
+		    <uri>model://eraser_model</uri>
+	    </include>
+	    <pose>0.2 -0.25 1.0 0 0 0</pose>
+    </model>
+
   </world>
 </sdf>
