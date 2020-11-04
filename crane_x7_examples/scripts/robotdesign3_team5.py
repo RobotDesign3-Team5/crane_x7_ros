@@ -61,11 +61,11 @@ def main():
     glue_after_z = 0.30
     #------------------
     #battery
-    battery_x = 
-    battery_y =
-    battery_before_z =
-    battey_z =
-    battery_after_z =
+    battery_x = 0.4 
+    battery_y = -0.25
+    battery_before_z =0.30
+    battey_z = 0.25
+    battery_after_z = 0.30
     #------------------
 
     rospy.init_node("crane_x7_pick_and_place_controller")
