@@ -60,7 +60,13 @@ def main():
     glue_z = 0.25
     glue_after_z = 0.30
     #------------------
-    #
+    #battery
+    battery_x = 
+    battery_y =
+    battery_before_z =
+    battey_z =
+    battery_after_z =
+    #------------------
 
     rospy.init_node("crane_x7_pick_and_place_controller")
     robot = moveit_commander.RobotCommander()
