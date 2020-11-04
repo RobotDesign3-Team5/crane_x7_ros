@@ -54,11 +54,11 @@ def main():
     put_after_z = 0.20
     # -------------------
     # GlueStick
-    glue_x = 
-    glue_y =
-    glue_before_z =
-    glue_z =
-    glue_after_z =
+    glue_x = 0.30 
+    glue_y = -0.25
+    glue_before_z = 0.30
+    glue_z = 0.25
+    glue_after_z = 0.30
     #------------------
     #
 
