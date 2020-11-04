@@ -8,6 +8,72 @@ import rosnode
 import math
 from tf.transformations import quaternion_from_euler
 
+def main():
+    arm = moveit_commander.MoveGroupCommander("arm")
+    # 駆動速度を調整する
+    arm.set_max_velocity_scaling_factor(0.2)
+
+    # SRDFに定義されている"vertical"の姿勢にする
+    # すべてのジョイントの目標角度が0度になる
+    arm.set_named_target("vertical")
+    arm.go()
+
+    # 目標角度と実際の角度を確認
+    print "joint_value_target (radians):"
+    print arm.get_joint_value_target()
+    print "current_joint_values (radians):"
+    print arm.get_current_joint_values()
+
+    # 現在角度をベースに、目標角度を作成する
+    target_joint_values = arm.get_current_joint_values()
+    # 各ジョイントの角度を１つずつ変更する
+    joint_angle = math.radians(-45)
+    for i in range(3, 4):
+        target_joint_values[i] = joint_angle
+        arm.set_joint_value_target(target_joint_values)
+        arm.go()
+        print str(i) + "-> joint_value_target (degrees):",
+        print math.degrees( arm.get_joint_value_target()[i] ),
+        print ", current_joint_values (degrees):",
+        print math.degrees( arm.get_current_joint_values()[i] )
+    rospy.sleep(1)
+    # 垂直に戻す
+    arm.set_named_target("vertical")
+    arm.go()
+    rospy.sleep(1)
+    for i in range(2, 4):
+        target_joint_values[i] = joint_angle
+        arm.set_joint_value_target(target_joint_values)
+        arm.go()
+        print str(i) + "-> joint_value_target (degrees):",
+        print math.degrees( arm.get_joint_value_target()[i] ),
+        print ", current_joint_values (degrees):",
+        print math.degrees( arm.get_current_joint_values()[i] )
+    rospy.sleep(1)
+    arm.set_named_target("vertical")
+    arm.go()
+    rospy.sleep(1)
+    joint_angle = math.radians(45)
+    for i in range(2, 3):
+        target_joint_values[i] = joint_angle
+        arm.set_joint_value_target(target_joint_values)
+        arm.go()
+        print str(i) + "-> joint_value_target (degrees):",
+        print math.degrees( arm.get_joint_value_target()[i] ),
+        print ", current_joint_values (degrees):",
+        print math.degrees( arm.get_current_joint_values()[i] )
+    rospy.sleep(1)
+    arm.set_named_target("vertical")
+    arm.go()
+    rospy.sleep(1)
+
+if __name__ == '__main__':
+    try:
+        if not rospy.is_shutdown():
+            main()
+    except rospy.ROSInterruptException:
+        pass
+
 def arm_move(x,y,z,a,b,c):
     arm = moveit_commander.MoveGroupCommander("arm")
     target_pose = geometry_msgs.msg.Pose()
@@ -48,9 +114,9 @@ def main():
     # --------------------
     # 捺印
     put_x = 0.20
-    put_y = 0.15
+    put_y = 0
     put_before_z = 0.20
-    put_z = 0.10
+    put_z = 0.13
     put_after_z = 0.20
     # --------------------
 
@@ -61,7 +127,7 @@ def main():
     gripper = moveit_commander.MoveGroupCommander("gripper")
 
     while len([s for s in rosnode.get_node_names() if 'rviz' in s]) == 0:
-        rospy.sleep(1.0)
+            rospy.sleep(1.0)
     rospy.sleep(1.0)
 
     print("Group names:")
@@ -135,7 +201,6 @@ def main():
 
 
 if __name__ == '__main__':
-
     try:
         if not rospy.is_shutdown():
             main()
