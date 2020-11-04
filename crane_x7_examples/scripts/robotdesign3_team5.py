@@ -110,6 +110,10 @@ def main():
     print("電池を掴みそうな位置まで移動")
     arm_move(battery_x, battery_y, battery_z, -3.14, 0.0, -1.5708)
 
+    print("電池の上へ戻る")
+    arm_move(battery_x, battery_y, battery_after_z, -3.14, 0.0, -1.5708)
+
+
 
     print("はんこ上まで移動")
     arm_move(seal_x, seal_y, seal_before_z, -3.1415, 0.0, -1.5708)
