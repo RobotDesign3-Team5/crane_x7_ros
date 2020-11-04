@@ -43,7 +43,8 @@ def main():
         target_pose.position.x = pos_x
         target_pose.position.y = pos_y
         target_pose.position.z = pos_z
-        q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
+        q = quaternion_from_euler(-3.14, 0.0, -3.14)  # 上方から掴みに行く場合, 引数(-3.14, 0.0, -3.14/2.0) -> (-3.14, 0.0, -3.14)に変更
+       # q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
         target_pose.orientation.x = q[0]
         target_pose.orientation.y = q[1]
         target_pose.orientation.z = q[2]
@@ -80,6 +81,7 @@ def main():
     rospy.sleep(1)
 
     #朱肉の上に移動
+    #arm.set_max_velocity_scaling_factor(0.01)
     move_arm(0.2, -0.15, 0.2)
     rospy.sleep(1)
 
@@ -91,12 +93,27 @@ def main():
     move_arm(0.2, -0.15, 0.2)
     rospy.sleep(1)
 
+    arm.set_max_velocity_scaling_factor(0.7)
+
     #紙の上に移動
     arm.set_named_target("before_stamping_position")
     arm.go()
     rospy.sleep(1)
     #紙に押す
-    move_arm(0.2, 0, 0.13)
+    """
+    target_pose = geometry_msgs.msg.Pose()
+    target_pose.position.x = 0.2
+    target_pose.position.y = 0
+    target_pose.position.z = 0.12
+    q = quaternion_from_euler(-3.14, 0.0, -3.14)  # 上方から掴みに行く場合, 引数(-3.14, 0.0, -3.14/2.0) -> (-3.14, 0.0, -3.14)に変更
+    target_pose.orientation.x = q[0]
+    target_pose.orientation.y = q[1]
+    target_pose.orientation.z = q[2]
+    target_pose.orientation.w = q[3]
+    arm.set_pose_target(target_pose)  # 目標ポーズ設定
+    arm.go()  # 実行
+    """
+    move_arm(0.2, 0, 0.12)
     rospy.sleep(1)
     print ", current_joint_values (degrees):",
     print math.degrees( arm.get_current_joint_values()[5] )
