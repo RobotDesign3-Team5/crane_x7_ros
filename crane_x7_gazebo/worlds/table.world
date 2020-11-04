@@ -57,7 +57,7 @@
       </joint>
     </model>
 
-    <!-- 選択肢モデル-->
+    <!-- スティックのりモデル（選択肢）-->
     <model name="option_model">
 	    <include>
 		    <uri>model://GlueStick_model</uri>
