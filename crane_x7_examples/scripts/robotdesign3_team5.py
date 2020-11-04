@@ -35,13 +35,13 @@ def main():
     put_after_z = 0.20      # 押す後  z座標[m]
     # --------------------
     # 初期設定
-    hand_open = math.pi/4  # ハンド 開く角度[rad] 
-    
+    hand_open = math.pi/4   # ハンド 開く角度[rad]
+    ofset_exec_speed = 0.1  # 実行速度 
     # --------------------
     rospy.init_node("crane_x7_pick_and_place_controller")
     robot = moveit_commander.RobotCommander()
     arm = moveit_commander.MoveGroupCommander("arm")
-    arm.set_max_velocity_scaling_factor(0.5) # 実行速度
+    arm.set_max_velocity_scaling_factor(ofset_exec_speed)
     gripper = moveit_commander.MoveGroupCommander("gripper")
     # --------------------
     # 指定座標に手先を動かす関数
@@ -50,7 +50,7 @@ def main():
         target_pose.position.x = x
         target_pose.position.y = y
         target_pose.position.z = z
-        q = quaternion_from_euler(- math.pi,0.0,- math.pi / 2)
+        q = quaternion_from_euler(- math.pi,0.0,- math.pi)
         target_pose.orientation.x = q[0]
         target_pose.orientation.y = q[1]
         target_pose.orientation.z = q[2]
@@ -88,15 +88,6 @@ def main():
     print("Current state:")
     print(robot.get_current_state())
     # --------------------
-    # 簡易SRDFのテスト
-    """
-    arm.set_named_target("vertical")
-    arm.go()
-
-    joints_moves([41,-3,-81,-99,3,-82,-130])
-    rospy.sleep(1.0)
-    """
-    # --------------------
     # アーム初期ポーズを表示
     arm_initial_pose = arm.get_current_pose().pose
     print("Arm initial pose:")
@@ -126,18 +117,19 @@ def main():
         arm_move(inkpad_x, inkpad_y, inkpad_before_z)
         # --------------------
         # 朱肉にはんこを数回押し付ける
+        arm.set_max_velocity_scaling_factor(1.0)
         arm_move(inkpad_x, inkpad_y, inkpad_z)
         for j in range(2):
             arm_move(inkpad_x, inkpad_y, inkpad_z + inkpad_up_z)
             arm_move(inkpad_x, inkpad_y, inkpad_z)
         # --------------------
+        arm.set_max_velocity_scaling_factor(ofset_exec_speed)
         # 持ち上げる
         arm_move(inkpad_x, inkpad_y, inkpad_after_z)
 
         # 確認する
         joint_move(4,check_deg)
     # --------------------
-
     print("捺印場所に移動")
     arm_move(put_x, put_y, put_before_z)
 
