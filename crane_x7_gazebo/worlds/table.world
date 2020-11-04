@@ -73,5 +73,13 @@
 	    <pose>0.2 -0.25 1.0 0 0 0</pose>
     </model>
 
+    <!--電池モデル(選択肢)-->
+    <model name="battery_model">
+	    <include>
+		    <uri>model;//battery_model</uri>
+	    </include>
+	    <pose>0.4 -0.25 1.0 0 0 0</pose>
+    </model>
+
   </world>
 </sdf>
