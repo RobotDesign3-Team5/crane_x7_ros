@@ -35,21 +35,21 @@ def main():
     put_after_z = 0.20      # 押す後  z座標[m]
     # -------------------
     # GlueStick
-    glue_x = 0.30 
+    glue_x = 0.20 
     glue_y = -0.25
     glue_before_z = 0.30
     glue_z = 0.25
     glue_after_z = 0.30
     # -------------------
-    #battery
-    battery_x = 0.4 
+    # battery
+    battery_x = 0.15 
     battery_y = -0.25
     battery_before_z =0.30
     battery_z = 0.25
     battery_after_z = 0.30
     # -------------------
-    #eraser
-    eraser_x = 0.2
+    # eraser
+    eraser_x = 0.10
     eraser_y = -0.25
     eraser_before_z = 0.30
     eraser_z = 0.25
@@ -91,6 +91,7 @@ def main():
         arm.set_joint_value_target(target_joint_values)
         arm.go()
     # --------------------
+    """
     # 複数関節の角度[deg]を指定し動かす関数
     def joints_moves_deg(deg):
         target_joint_values = arm.get_current_joint_values() # 現在角度をベースに、目標角度を作成する
@@ -106,6 +107,7 @@ def main():
             target_joint_values[i] = arm.get_current_joint_values()[i] + rad[i]
             arm.set_joint_value_target(target_joint_values)
         arm.go()
+    """
     # --------------------
     while len([s for s in rosnode.get_node_names() if 'rviz' in s]) == 0:
         rospy.sleep(1.0)
@@ -174,6 +176,10 @@ def main():
     # --------------------
     print("ハンドを開く")
     hand_move(hand_open)
+
+    # SRDFに定義されている"home"の姿勢にする
+    arm.set_named_target("home")
+    arm.go()
     # --------------------
     # 担当 Shu Kouki
     print("スティックのり上まで移動")
@@ -249,8 +255,8 @@ def main():
 
     print("はんこを押す")
     arm_move(put_x, put_y, put_z)
-
-    #担当　Yokoo Riku --------------
+    # --------------------
+    #担当　Yokoo Riku
     #印鑑グリグリ
     degree = math.degrees(arm.get_current_joint_values()[5])
     degree += 3
