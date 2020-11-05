@@ -111,7 +111,7 @@ def main():
     print("スティックのり上へ戻る")
     arm_move(glue_x, glue_y, glue_after_z, -3.1415, 0.0, -1.5708)
 
-    print("電池の上へ戻る")
+    print("電池の上へ移動")
     arm_move(battery_x, battery_y, battery_before_z, -3.14, 0.0, -1.5708)
 
     print("電池を掴みそうな位置まで移動")
