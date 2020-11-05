@@ -113,7 +113,41 @@ def main():
     arm_initial_pose = arm.get_current_pose().pose
     print("Arm initial pose:")
     print(arm_initial_pose)
+    # --------------------
+    # 担当 Shirasu Kazuki
+    arm.set_named_target("vertical")
+    arm.go()
 
+    joint_move(3,-45)
+    joint_move(4,-45)
+
+    rospy.sleep(1.0)
+
+    arm.set_named_target("vertical")
+    arm.go()
+
+    rospy.sleep(1.0)
+
+    joint_move(2,-45)
+    joint_move(4,-45)
+
+    rospy.sleep(1.0)
+
+    arm.set_named_target("vertical")
+    arm.go()
+
+    rospy.sleep(1.0)
+
+    joint_move(2,45)
+    joint_move(3,45)
+
+    rospy.sleep(1.0)
+
+    arm.set_named_target("vertical")
+    arm.go()
+
+    rospy.sleep(1.0)
+    # --------------------
     # SRDFに定義されている"home"の姿勢にする
     arm.set_named_target("home")
     arm.go()
@@ -187,7 +221,20 @@ def main():
 
     print("はんこを上げる")
     arm_move(put_x, put_y, put_after_z)
+   # --------------------
+   # 担当 Shirasu Kazuki
+    print("はんこをティッシュの上まで移動")
+    arm_move(0.20, 0.30, 0.2, -3.1415, 0.0, -1.5708)
 
+    print("はんこをティッシュで拭く")
+    arm_move(0.20, 0.30, 0.12, -3.1415, 0.0, -1.5708)
+    arm_move(0.20, 0.34, 0.12, -3.1415, 0.0, -1.5708)
+    arm_move(0.20, 0.26, 0.12, -3.1415, 0.0, -1.5708)
+    arm_move(0.20, 0.30, 0.12, -3.1415, 0.0, -1.5708)
+
+    print("はんこを上げる")
+    arm_move(0.20, 0.30, 0.2, -3.1415, 0.0, -1.5708)
+   # --------------------
 if __name__ == '__main__':
 
     try:
