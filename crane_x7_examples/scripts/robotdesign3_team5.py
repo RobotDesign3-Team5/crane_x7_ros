@@ -66,7 +66,14 @@ def main():
     battery_before_z =0.30
     battey_z = 0.25
     battery_after_z = 0.30
-    #------------------
+    #-----------------
+    #eraser
+    eraser_x = 0.2
+    eraser_y = -0.25
+    eraser_before_z = 0.30
+    eraser_z = 0.25
+    eraser_after_z = 0.30
+    #-----------------
 
     rospy.init_node("crane_x7_pick_and_place_controller")
     robot = moveit_commander.RobotCommander()
