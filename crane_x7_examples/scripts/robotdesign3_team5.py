@@ -232,6 +232,26 @@ def main():
     print("はんこを押す")
     arm_move(put_x, put_y, put_z)
 
+    #担当　Yokoo Riku --------------
+    #印鑑グリグリ
+    degree = math.degree(arm.get_current_joint_values()[5])
+    degree += 3
+    for i in range(2):
+        target_joint_values = arm.get_current_joint_values()
+        joint_angle = math.radians(degree)
+        target_joint_values[5] = joint_angle
+        arm.set_joint_value_target(target_joint_values)
+        arm.go()
+        degree -= 6
+
+        joint_angle = math.radians(degree)
+        target_joint_values[5] = joint_angle
+        arm.set_joint_value_target(target_joint_values)
+        arm.go()
+        degree += 6
+
+    #-------------------------------
+
     print("はんこを上げる")
     arm_move(put_x, put_y, put_after_z)
    # --------------------
