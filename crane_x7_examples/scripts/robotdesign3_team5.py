@@ -119,7 +119,6 @@ def main():
     arm.go()
 
     joint_move(3,-45)
-    joint_move(4,-45)
 
     rospy.sleep(1.0)
 
@@ -129,7 +128,7 @@ def main():
     rospy.sleep(1.0)
 
     joint_move(2,-45)
-    joint_move(4,-45)
+    joint_move(3,-45)
 
     rospy.sleep(1.0)
 
