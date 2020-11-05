@@ -120,6 +120,8 @@ def main():
     print("電池の上へ戻る")
     arm_move(battery_x, battery_y, battery_after_z, -3.14, 0.0, -1.5708)
 
+    print("消しゴムの上へ移動する")
+    arm_move(eraser_x, eraser_y, eraser_before_z, -3.14, 0.0, -1.5708)
 
 
     print("はんこ上まで移動")
