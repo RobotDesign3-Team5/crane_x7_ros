@@ -234,7 +234,7 @@ def main():
 
     #担当　Yokoo Riku --------------
     #印鑑グリグリ
-    degree = math.degree(arm.get_current_joint_values()[5])
+    degree = math.degrees(arm.get_current_joint_values()[5])
     degree += 3
     for i in range(2):
         target_joint_values = arm.get_current_joint_values()
