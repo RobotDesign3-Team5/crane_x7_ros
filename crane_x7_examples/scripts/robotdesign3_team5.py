@@ -207,6 +207,7 @@ def main():
     print("はんこを持ち上げる")
     arm_move(seal_x, seal_y, seal_after_z)
     # --------------------
+    # 担当 Kubotera Masato
     print ("朱肉につけ確認する動作")
     for i in range(2):
         arm_move(inkpad_x, inkpad_y, inkpad_before_z)
