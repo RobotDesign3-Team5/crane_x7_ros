@@ -123,6 +123,9 @@ def main():
     print("消しゴムの上へ移動する")
     arm_move(eraser_x, eraser_y, eraser_before_z, -3.14, 0.0, -1.5708)
 
+    print("消しゴムを掴みそうな位置まで移動")
+    arm_move(eraser_x, eraser_y, eraser_z, -3.14, 0.0, -1.5708)
+
 
     print("はんこ上まで移動")
     arm_move(seal_x, seal_y, seal_before_z, -3.1415, 0.0, -1.5708)
