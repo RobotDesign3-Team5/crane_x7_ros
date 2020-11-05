@@ -92,10 +92,18 @@ def main():
         arm.go()
     # --------------------
     # 複数関節の角度[deg]を指定し動かす関数
-    def joints_moves(deg):
+    def joints_moves_deg(deg):
         target_joint_values = arm.get_current_joint_values() # 現在角度をベースに、目標角度を作成する
         for i in range(7):
             target_joint_values[i] = arm.get_current_joint_values()[i] + math.radians(deg[i])
+            arm.set_joint_value_target(target_joint_values)
+        arm.go()
+    # --------------------
+    # 複数関節の角度[rad]を指定し動かす関数
+    def joints_moves_rad(rad):
+        target_joint_values = arm.get_current_joint_values() # 現在角度をベースに、目標角度を作成する
+        for i in range(7):
+            target_joint_values[i] = arm.get_current_joint_values()[i] + rad[i]
             arm.set_joint_value_target(target_joint_values)
         arm.go()
     # --------------------
@@ -194,9 +202,17 @@ def main():
 
     print("消しゴムの上へ戻る")
     arm_move(eraser_x, eraser_y, eraser_z)
-    # --------------------
+    #--------------------
+
+    # SRDFに定義されている"home"の姿勢にする
+    arm.set_named_target("home")
+    arm.go()
+
     print("はんこ上まで移動")
-    arm_move(seal_x, seal_y, seal_before_z)
+    # arm_move(seal_x, seal_y, seal_before_z)
+    # joints_moves_rad([-0.110369,-1.1134585,-0.628,-0.485947,-1.57774728,0.2205,-0.38])
+    arm.set_named_target("pick_seal_position")
+    arm.go()
 
     print("はんこを掴む位置まで移動")
     arm_move(seal_x, seal_y, seal_z)
@@ -227,7 +243,9 @@ def main():
         joint_move(4,check_deg)
     # --------------------
     print("捺印場所に移動")
-    arm_move(put_x, put_y, put_before_z)
+    # arm_move(put_x, put_y, put_before_z)
+    arm.set_named_target("before_stamping_position")
+    arm.go()
 
     print("はんこを押す")
     arm_move(put_x, put_y, put_z)
