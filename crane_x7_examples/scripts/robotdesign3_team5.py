@@ -33,7 +33,28 @@ def main():
     put_before_z = 0.20     # 押す前  z座標[m]
     put_z = 0.12            # 押す    z座標[m]
     put_after_z = 0.20      # 押す後  z座標[m]
-    # --------------------
+    # -------------------
+    # GlueStick
+    glue_x = 0.30 
+    glue_y = -0.25
+    glue_before_z = 0.30
+    glue_z = 0.25
+    glue_after_z = 0.30
+    # -------------------
+    #battery
+    battery_x = 0.4 
+    battery_y = -0.25
+    battery_before_z =0.30
+    battey_z = 0.25
+    battery_after_z = 0.30
+    # -------------------
+    #eraser
+    eraser_x = 0.2
+    eraser_y = -0.25
+    eraser_before_z = 0.30
+    eraser_z = 0.25
+    eraser_after_z = 0.30
+    # -------------------
     # 初期設定
     hand_open = math.pi/4   # ハンド 開く角度[rad]
     ofset_exec_speed = 0.1  # 実行速度 
@@ -99,7 +120,35 @@ def main():
     
     print("ハンドを開く")
     hand_move(hand_open)
+    # --------------------
+    # 担当 Shu Kouki
+    print("スティックのり上まで移動")
+    arm_move(glue_x, glue_y, glue_before_z)
+	
+    print("スティックのりを掴みそうな位置まで移動")
+    arm_move(glue_x, glue_y, glue_z)
 
+    print("スティックのり上へ戻る")
+    arm_move(glue_x, glue_y, glue_after_z)
+
+    print("電池の上へ移動")
+    arm_move(battery_x, battery_y, battery_before_z)
+
+    print("電池を掴みそうな位置まで移動")
+    arm_move(battery_x, battery_y, battery_z)
+
+    print("電池の上へ戻る")
+    arm_move(battery_x, battery_y, battery_after_z)
+
+    print("消しゴムの上へ移動する")
+    arm_move(eraser_x, eraser_y, eraser_before_z)
+
+    print("消しゴムを掴みそうな位置まで移動")
+    arm_move(eraser_x, eraser_y, eraser_z)
+
+    print("消しゴムの上へ戻る")
+    arm_move(eraser_x, eraser_y, eraser_z)
+    # --------------------
     print("はんこ上まで移動")
     arm_move(seal_x, seal_y, seal_before_z)
 
