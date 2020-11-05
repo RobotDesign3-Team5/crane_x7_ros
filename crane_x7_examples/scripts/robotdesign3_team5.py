@@ -45,7 +45,7 @@ def main():
     battery_x = 0.4 
     battery_y = -0.25
     battery_before_z =0.30
-    battey_z = 0.25
+    battery_z = 0.25
     battery_after_z = 0.30
     # -------------------
     #eraser
@@ -138,7 +138,7 @@ def main():
     rospy.sleep(1.0)
 
     joint_move(2,45)
-    joint_move(3,45)
+    joint_move(3,-45)
 
     rospy.sleep(1.0)
 
