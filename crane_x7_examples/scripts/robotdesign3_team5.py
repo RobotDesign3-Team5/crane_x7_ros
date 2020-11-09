@@ -13,9 +13,9 @@ def main():
     seal_x = 0.30           # x座標[m]
     seal_y = -0.15          # y座標[m]
     seal_before_z = 0.30    # 掴む前  Z座標[m]
-    seal_z = 0.125          # 掴む    Z座標[m]
+    seal_z = 0.135          # 掴む    Z座標[m]
     seal_after_z = 0.30     # 掴む後  Z座標[m]
-    seal_close = 0.22       # 掴む角度[rad]
+    seal_close = 0.10       # 掴む角度[rad]
     # --------------------
     # 朱肉
     inkpad_x = 0.20         # x座標[m]
@@ -32,28 +32,29 @@ def main():
     put_y = 0.0             # y座標[m]
     put_before_z = 0.20     # 押す前  z座標[m]
     put_z = 0.12            # 押す    z座標[m]
+    push_z = 0.005          # 押し込みz座標[m]
     put_after_z = 0.20      # 押す後  z座標[m]
     # -------------------
     # GlueStick
-    glue_x = 0.20 
-    glue_y = -0.25
-    glue_before_z = 0.30
-    glue_z = 0.25
-    glue_after_z = 0.30
+    glue_x = 0.20           # x座標[m]
+    glue_y = -0.25          # y座標[m]
+    glue_before_z = 0.30    # 選ぶ？前  z座標[m]
+    glue_z = 0.25           # 選ぶ？    z座標[m]
+    glue_after_z = 0.30     # 選ぶ？後  z座標[m]
     # -------------------
     # battery
-    battery_x = 0.15 
-    battery_y = -0.25
-    battery_before_z =0.30
-    battery_z = 0.25
-    battery_after_z = 0.30
+    battery_x = 0.10        # x座標[m]
+    battery_y = -0.25       # y座標[m]
+    battery_before_z =0.30  # 選ぶ？前  z座標[m]
+    battery_z = 0.25        # 選ぶ？    z座標[m]
+    battery_after_z = 0.30  # 選ぶ？後  z座標[m]
     # -------------------
     # eraser
-    eraser_x = 0.10
-    eraser_y = -0.25
-    eraser_before_z = 0.30
-    eraser_z = 0.25
-    eraser_after_z = 0.30
+    eraser_x = 0.0          # x座標[m]
+    eraser_y = -0.25        # y座標[m]
+    eraser_before_z = 0.30  # 選ぶ？前  z座標[m]
+    eraser_z = 0.25         # 選ぶ？    z座標[m]
+    eraser_after_z = 0.30   # 選ぶ？後  z座標[m]
     # -------------------
     # 初期設定
     hand_open = math.pi/4   # ハンド 開く角度[rad]
@@ -125,36 +126,31 @@ def main():
     print(arm_initial_pose)
     # --------------------
     # 担当 Shirasu Kazuki
+    # はじめの挨拶
     arm.set_named_target("vertical")
     arm.go()
 
     joint_move(3,-45)
-
     rospy.sleep(1.0)
 
     arm.set_named_target("vertical")
     arm.go()
-
     rospy.sleep(1.0)
 
     joint_move(2,-45)
     joint_move(3,-45)
-
     rospy.sleep(1.0)
 
     arm.set_named_target("vertical")
     arm.go()
-
     rospy.sleep(1.0)
 
     joint_move(2,45)
     joint_move(3,-45)
-
     rospy.sleep(1.0)
 
     arm.set_named_target("vertical")
     arm.go()
-
     rospy.sleep(1.0)
     # --------------------
     # SRDFに定義されている"home"の姿勢にする
@@ -162,26 +158,22 @@ def main():
     arm.go()
     # --------------------
     # 担当 Takahashi Naoya
-    print("紙の位置に移動")
-    arm_move(put_x, put_y, put_before_z)
-
     print("右に移動")
     arm_move(0.20, 0.10, 0.2)
 
     print("左に移動")
-    arm_move(0.20, 0.30, 0.2)
-
-    print("元の位置に")
-    arm_move(put_x, put_y, put_before_z)
+    arm_move(0.20, -0.10, 0.2)    
     # --------------------
-    print("ハンドを開く")
-    hand_move(hand_open)
-
+    """
     # SRDFに定義されている"home"の姿勢にする
     arm.set_named_target("home")
     arm.go()
+    """
+    print("ハンドを開く")
+    hand_move(hand_open)
     # --------------------
     # 担当 Shu Kouki
+    # はんこを選ぶ
     print("スティックのり上まで移動")
     arm_move(glue_x, glue_y, glue_before_z)
 	
@@ -209,10 +201,8 @@ def main():
     print("消しゴムの上へ戻る")
     arm_move(eraser_x, eraser_y, eraser_z)
     #--------------------
-
-    # SRDFに定義されている"home"の姿勢にする
-    arm.set_named_target("home")
-    arm.go()
+    # 担当 Kubotera Masato
+    # はんこを掴む
 
     print("はんこ上まで移動")
     # arm_move(seal_x, seal_y, seal_before_z)
@@ -255,9 +245,13 @@ def main():
 
     print("はんこを押す")
     arm_move(put_x, put_y, put_z)
+    arm_move(put_x, put_y, put_z - push_z)
+    arm_move(put_x, put_y, put_z)
+    rospy.sleep(0.5)
     # --------------------
-    #担当　Yokoo Riku
-    #印鑑グリグリ
+    # 担当 Yokoo Riku
+    # 印鑑グリグリ
+    """
     degree = math.degrees(arm.get_current_joint_values()[5])
     degree += 3
     for i in range(2):
@@ -273,24 +267,39 @@ def main():
         arm.set_joint_value_target(target_joint_values)
         arm.go()
         degree += 6
-
+    """
     #-------------------------------
-
     print("はんこを上げる")
     arm_move(put_x, put_y, put_after_z)
-   # --------------------
-   # 担当 Shirasu Kazuki
+    # --------------------
+    # 担当 Shirasu Kazuki
     print("はんこをティッシュの上まで移動")
     arm_move(0.20, 0.30, 0.2)
 
     print("はんこをティッシュで拭く")
     arm_move(0.20, 0.30, 0.12)
-    arm_move(0.20, 0.34, 0.12)
-    arm_move(0.20, 0.26, 0.12)
+    arm_move(0.22, 0.30, 0.12)
     arm_move(0.20, 0.30, 0.12)
+    arm_move(0.18, 0.30, 0.12)
 
     print("はんこを上げる")
     arm_move(0.20, 0.30, 0.2)
+    # --------------------
+    print("はんこ上まで移動")
+    # arm_move(seal_x, seal_y, seal_before_z)
+    # joints_moves_rad([-0.110369,-1.1134585,-0.628,-0.485947,-1.57774728,0.2205,-0.38])
+    arm.set_named_target("pick_seal_position")
+    arm.go()
+
+    print("はんこをはなす位置まで移動")
+    arm_move(seal_x, seal_y, seal_z)
+
+    print("はんこをはなす")
+    hand_move(hand_open)
+
+    # SRDFに定義されている"home"の姿勢にする
+    arm.set_named_target("home")
+    arm.go()
    # --------------------
 if __name__ == '__main__':
 
