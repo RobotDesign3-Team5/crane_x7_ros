@@ -67,7 +67,7 @@
        <include>
          <uri>model://eraser_model</uri>
        </include>
-       <pose>0.10 -0.25 1.0 0 0 0</pose>
+       <pose>0.00 -0.25 1.0 0 0 0</pose>
     </model>
 
     <!-- 電池モデル -->
@@ -75,7 +75,7 @@
        <include>
          <uri>model://battery_model</uri>
        </include>
-       <pose>0.15 -0.25 1.0 0 0 0</pose>
+       <pose>0.10 -0.25 1.0 0 0 0</pose>
     </model>
 
     <model name="ground_plane">
