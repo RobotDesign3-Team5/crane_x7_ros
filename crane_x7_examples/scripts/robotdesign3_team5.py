@@ -32,28 +32,28 @@ def main():
     put_y = 0.0             # y座標[m]
     put_before_z = 0.20     # 押す前  z座標[m]
     put_z = 0.12            # 押す    z座標[m]
-    push_z = 0.005          # 押し込みz座標[m]
+    push_z = 0.008          # 押し込みz座標[m]
     put_after_z = 0.20      # 押す後  z座標[m]
     # -------------------
     # GlueStick
-    glue_x = 0.20           # x座標[m]
+    glue_x = 0.00           # x座標[m]
     glue_y = -0.25          # y座標[m]
     glue_before_z = 0.30    # 選ぶ？前  z座標[m]
-    glue_z = 0.25           # 選ぶ？    z座標[m]
+    glue_z = 0.20           # 選ぶ？    z座標[m]
     glue_after_z = 0.30     # 選ぶ？後  z座標[m]
     # -------------------
     # battery
-    battery_x = 0.10        # x座標[m]
+    battery_x = 0.20        # x座標[m]
     battery_y = -0.25       # y座標[m]
     battery_before_z =0.30  # 選ぶ？前  z座標[m]
-    battery_z = 0.25        # 選ぶ？    z座標[m]
+    battery_z = 0.12        # 選ぶ？    z座標[m]
     battery_after_z = 0.30  # 選ぶ？後  z座標[m]
     # -------------------
     # eraser
-    eraser_x = 0.0          # x座標[m]
+    eraser_x = 0.10          # x座標[m]
     eraser_y = -0.25        # y座標[m]
     eraser_before_z = 0.30  # 選ぶ？前  z座標[m]
-    eraser_z = 0.25         # 選ぶ？    z座標[m]
+    eraser_z = 0.12         # 選ぶ？    z座標[m]
     eraser_after_z = 0.30   # 選ぶ？後  z座標[m]
     # -------------------
     # 初期設定
@@ -159,10 +159,10 @@ def main():
     # --------------------
     # 担当 Takahashi Naoya
     print("右に移動")
-    arm_move(0.20, 0.10, 0.2)
+    arm_move(0.24, 0.10, 0.2)
 
     print("左に移動")
-    arm_move(0.20, -0.10, 0.2)    
+    arm_move(0.24, 0.0, 0.2)    
     # --------------------
     """
     # SRDFに定義されている"home"の姿勢にする
@@ -174,6 +174,15 @@ def main():
     # --------------------
     # 担当 Shu Kouki
     # はんこを選ぶ
+    print("消しゴムの上へ移動する")
+    arm_move(eraser_x, eraser_y, eraser_before_z)
+
+    print("消しゴムを掴みそうな位置まで移動")
+    arm_move(eraser_x, eraser_y, eraser_z)
+
+    print("消しゴムの上へ戻る")
+    arm_move(eraser_x, eraser_y, eraser_z)
+
     print("スティックのり上まで移動")
     arm_move(glue_x, glue_y, glue_before_z)
 	
@@ -191,15 +200,6 @@ def main():
 
     print("電池の上へ戻る")
     arm_move(battery_x, battery_y, battery_after_z)
-
-    print("消しゴムの上へ移動する")
-    arm_move(eraser_x, eraser_y, eraser_before_z)
-
-    print("消しゴムを掴みそうな位置まで移動")
-    arm_move(eraser_x, eraser_y, eraser_z)
-
-    print("消しゴムの上へ戻る")
-    arm_move(eraser_x, eraser_y, eraser_z)
     #--------------------
     # 担当 Kubotera Masato
     # はんこを掴む
