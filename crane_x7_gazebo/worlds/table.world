@@ -27,7 +27,7 @@
        <include>
          <uri>model://asstseal_model</uri>
        </include>
-       <pose>0.30 -0.15 1.02 0 0 0</pose>
+       <pose>0.30 -0.15 1.02 0 0 -1.5708</pose>
     </model>
 
     <!-- はんこマットモデル -->
@@ -59,7 +59,7 @@
        <include>
          <uri>model://GlueStick_model</uri>
        </include>
-       <pose>0.20 -0.25 1.0 0 0 0</pose>
+       <pose>0.00 -0.25 1.0 0 0 0</pose>
     </model>
 
     <!-- 消しゴムモデル -->
@@ -67,7 +67,7 @@
        <include>
          <uri>model://eraser_model</uri>
        </include>
-       <pose>0.00 -0.25 1.0 0 0 0</pose>
+       <pose>0.10 -0.25 1.0 0 0 1.5708</pose>
     </model>
 
     <!-- 電池モデル -->
@@ -75,7 +75,7 @@
        <include>
          <uri>model://battery_model</uri>
        </include>
-       <pose>0.10 -0.25 1.0 0 0 0</pose>
+       <pose>0.20 -0.25 1.0 0 0 0</pose>
     </model>
 
     <model name="ground_plane">
