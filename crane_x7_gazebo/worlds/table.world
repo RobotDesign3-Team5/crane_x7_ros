@@ -27,7 +27,7 @@
        <include>
          <uri>model://asstseal_model</uri>
        </include>
-       <pose>0.30 -0.15 1.02 0 0 -1.5708</pose>
+       <pose>0.30 -0.15 1.02 0 0 0</pose>
     </model>
 
     <!-- はんこマットモデル -->
