@@ -300,7 +300,21 @@ def main():
     # SRDFに定義されている"home"の姿勢にする
     arm.set_named_target("home")
     arm.go()
-   # --------------------
+
+    print("上向きに")
+    arm.set_named_target("vertical")
+    arm.go()
+
+    joint_move(4,0)
+
+    print("ガッツポーズ")
+    joint_move(5,70)
+    joint_move(1,32)
+    joint_move(3,-100)
+    rospy.sleep(1.0)
+
+    arm.set_named_target("home")
+    arm.go()
 if __name__ == '__main__':
 
     try:
