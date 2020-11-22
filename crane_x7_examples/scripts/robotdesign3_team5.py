@@ -50,11 +50,23 @@ def main():
     battery_after_z = 0.30  # 選ぶ？後  z座標[m]
     # -------------------
     # eraser
-    eraser_x = 0.10          # x座標[m]
+    eraser_x = 0.10         # x座標[m]
     eraser_y = -0.25        # y座標[m]
     eraser_before_z = 0.30  # 選ぶ？前  z座標[m]
     eraser_z = 0.12         # 選ぶ？    z座標[m]
     eraser_after_z = 0.30   # 選ぶ？後  z座標[m]
+    # -------------------
+    # 拭く
+    wipe_x = 0.20           # x座標[m]
+    wipe_y = 0.30           # y座標[m]
+    wipe_before_z = 0.2     # 拭く前　z座標[m]　
+    wipe_z = 0.12           # z座標[m]
+    wipe_after_z = 0.2      # 拭いた後　z座標[m]
+    # -------------------
+    # お辞儀
+    joint3_deg = -45        #　3番目の関節角度[deg]
+    joint2_rdeg = -45       #　右の時の2番目の関節角度[deg]
+    joint2_ldeg = 45       #　左の時の2番目の関節角度[deg]
     # -------------------
     # 初期設定
     hand_open = math.pi/4   # ハンド 開く角度[rad]
@@ -130,23 +142,23 @@ def main():
     arm.set_named_target("vertical")
     arm.go()
 
-    joint_move(3,-45)
+    joint_move(3,joint3_deg)
     rospy.sleep(1.0)
 
     arm.set_named_target("vertical")
     arm.go()
     rospy.sleep(1.0)
 
-    joint_move(2,-45)
-    joint_move(3,-45)
+    joint_move(2,joint2_rdeg)
+    joint_move(3,joint3_deg)
     rospy.sleep(1.0)
 
     arm.set_named_target("vertical")
     arm.go()
     rospy.sleep(1.0)
 
-    joint_move(2,45)
-    joint_move(3,-45)
+    joint_move(2,joint2_ldeg)
+    joint_move(3,joint3_deg)
     rospy.sleep(1.0)
 
     arm.set_named_target("vertical")
@@ -274,16 +286,19 @@ def main():
     # --------------------
     # 担当 Shirasu Kazuki
     print("はんこをティッシュの上まで移動")
-    arm_move(0.20, 0.30, 0.2)
+    arm_move(wipe_x, wipe_y, wipe_before_z)
 
     print("はんこをティッシュで拭く")
-    arm_move(0.20, 0.30, 0.12)
-    arm_move(0.22, 0.30, 0.12)
-    arm_move(0.20, 0.30, 0.12)
-    arm_move(0.18, 0.30, 0.12)
+    for i in range(6):
+        arm_move(wipe_x, wipe_y, wipe_z)
+        rospy.sleep(0.5)
+        if i % 2 == 0:
+            wipe_x = wipe_x + 0.02
+        else:
+            wipe_x = wipe_x - 0.02
 
     print("はんこを上げる")
-    arm_move(0.20, 0.30, 0.2)
+    arm_move(wipe_x, wipe_y, wipe_after_z)
     # --------------------
     print("はんこ上まで移動")
     # arm_move(seal_x, seal_y, seal_before_z)
