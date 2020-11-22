@@ -64,9 +64,8 @@ def main():
     wipe_after_z = 0.2      # 拭いた後　z座標[m]
     # -------------------
     # お辞儀
-    joint3_deg = -45        #　3番目の関節角度[deg]
-    joint2_rdeg = -45       #　右の時の2番目の関節角度[deg]
-    joint2_ldeg = 45       #　左の時の2番目の関節角度[deg]
+    joint3_deg = -45        # 3番目の関節角度[deg]
+    joint2_deg = -45        # 2番目の関節角度[deg]
     # -------------------
     # 初期設定
     hand_open = math.pi/4   # ハンド 開く角度[rad]
@@ -145,25 +144,17 @@ def main():
     joint_move(3,joint3_deg)
     rospy.sleep(1.0)
 
+    for i in range(2):
+        arm.set_named_target("vertical")
+        arm.go()
+        joint_move(2,joint2_deg)
+        joint_move(3,joint3_deg)
+        rospy.sleep(1.0)
+        joint2_deg = joint2_deg + 90
+   
     arm.set_named_target("vertical")
     arm.go()
-    rospy.sleep(1.0)
-
-    joint_move(2,joint2_rdeg)
-    joint_move(3,joint3_deg)
-    rospy.sleep(1.0)
-
-    arm.set_named_target("vertical")
-    arm.go()
-    rospy.sleep(1.0)
-
-    joint_move(2,joint2_ldeg)
-    joint_move(3,joint3_deg)
-    rospy.sleep(1.0)
-
-    arm.set_named_target("vertical")
-    arm.go()
-    rospy.sleep(1.0)
+    
     # --------------------
     # SRDFに定義されている"home"の姿勢にする
     arm.set_named_target("home")
