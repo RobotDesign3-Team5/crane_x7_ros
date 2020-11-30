@@ -1,3 +1,5 @@
+[5班セットアップマニュアル](https://github.com/RobotDesign3-Team5/setup_manual)
+
 [English](README.en.md) | [日本語](README.md)
 
 # crane_x7_ros
